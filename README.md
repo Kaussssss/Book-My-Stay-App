@@ -1,23 +1,43 @@
-Hotel Booking Management System
-(App-Based Learning Using Core Java & Data Structures)
+02 UC 1 - Application Entry & Welcome Message
 
-Objective
-This project focuses on the design and implementation of a Hotel Booking Management System to demonstrate how Core Java and fundamental data structures are applied to solve real-world software engineering challenges.
-Rather than treating data structures as isolated theory, the system shows how they enable:
-Fair request handling using FIFO principles
-Real-time inventory consistency across booking operations
-Prevention of double-booking through uniqueness enforcement
-Extensible and maintainable system design suitable for real applications
-Learning Approach
-The application is developed incrementally, with each use case introducing one new concept at a time while reinforcing previously learned ideas. Every design decision is intentional and mirrors how production systems evolve—from simple, rigid implementations to scalable, robust architectures.
+Kaustubh Chauhan
 
-Each stage highlights:
-Why a specific data structure is needed
-What problem it solves in a real business context
-What limitations exist before refactoring
-Scope & Focus
-The emphasis is on data structures, object-oriented design, and advanced Java concepts
-User input and UI handling are intentionally minimized to maintain focus on core logic and system behavior
-All interactions are deterministic and console-based for clarity, traceability, and ease of debugging
-Outcome
-By the end of this project, learners will understand not only how to use Java data structures, but when and why to use them—bridging the gap between academic knowledge and real-world system design.
+•
+March 11
+
+Goal: Establish a clear and predictable starting point for the Hotel Booking application by demonstrating how a Java program begins execution and produces console output.
+
+Actor: User – runs the application from the command line or IDE.
+
+Flow:
+User runs the application
+JVM invokes the main() method
+Application prints a welcome message along with the application name and version.
+Application terminates.
+Key Concepts Used
+Class
+Even the simplest Java application must be defined inside a class.
+The class acts as a container for application behavior and marks the logical boundary of the program.
+main() Method
+The main method is the entry point of every standalone Java application. The JVM looks specifically for the method signature:public static void main(String[] args).
+static Keyword
+The main() method is declared static so that it can be executed without creating an object of the class. This allows the JVM to start execution directly.
+Console Output
+System.out.println() is used to send text output to the console.This is the simplest way to observe program behavior during early development.
+String Literals
+Text enclosed in double quotes (e.g., "Hotel Booking System v1.0") is treated as a String literal, which is immutable and stored in the String pool.
+Method Invocation
+Calling println() on the out object demonstrates how methods are invoked on objects in Java, even in basic programs.
+Application Flow
+Execution proceeds top to bottom inside the main() method unless altered by control structures.This use case reinforces linear execution flow.
+JavaDoc Comments
+JavaDoc comments are used to document the class and its purpose. They serve as the foundation for professional code documentation.
+JavaDoc Annotations
+Tags such as @author and @version provide metadata about the class and help maintain traceability as the system evolves.
+Key Requirements
+Create a Java class that represents the application entry point.
+Implement the main() method using the correct signature.
+Print a welcome message to the console.
+Display the application name and version information.
+Use JavaDoc comments to document the class and its intent.
+Ensure the program executes and terminates without errors.
