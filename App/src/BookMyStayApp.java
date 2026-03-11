@@ -1,82 +1,98 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * UseCase2RoomInitialization
+ * RoomInventory
  *
- * Demonstrates object modeling using abstraction and inheritance
- * for the Book My Stay App.
- *
- * Version: 2.1
+ * Manages centralized room availability using a HashMap.
+ * This class acts as the single source of truth for inventory state.
  *
  * @author Kaustubh Chauhan
- * @version 2.1
+ * @version 3.0
  */
+class RoomInventory {
 
-abstract class Room {
+    private HashMap<String, Integer> inventory;
 
-    protected String roomType;
-    protected int beds;
-    protected double price;
+    /**
+     * Constructor initializes the room inventory
+     */
+    public RoomInventory() {
 
-    public Room(String roomType, int beds, double price) {
-        this.roomType = roomType;
-        this.beds = beds;
-        this.price = price;
+        inventory = new HashMap<>();
+
+        // Register room types with their availability
+        inventory.put("Single Room", 10);
+        inventory.put("Double Room", 6);
+        inventory.put("Suite Room", 3);
     }
 
-    public void displayRoomDetails() {
-        System.out.println("Room Type : " + roomType);
-        System.out.println("Beds      : " + beds);
-        System.out.println("Price     : $" + price);
+    /**
+     * Retrieves availability for a given room type
+     */
+    public int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
+    }
+
+    /**
+     * Updates availability for a specific room type
+     */
+    public void updateAvailability(String roomType, int newCount) {
+        inventory.put(roomType, newCount);
+    }
+
+    /**
+     * Displays the current inventory state
+     */
+    public void displayInventory() {
+
+        System.out.println("---- Current Room Inventory ----");
+
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " rooms available");
+        }
+
+        System.out.println();
     }
 }
 
-class SingleRoom extends Room {
 
-    public SingleRoom() {
-        super("Single Room", 1, 80.0);
-    }
-}
-
-class DoubleRoom extends Room {
-
-    public DoubleRoom() {
-        super("Double Room", 2, 120.0);
-    }
-}
-
-class SuiteRoom extends Room {
-
-    public SuiteRoom() {
-        super("Suite Room", 3, 250.0);
-    }
-}
-
+/**
+ * UseCase3InventorySetup
+ *
+ * Demonstrates centralized inventory management using HashMap.
+ * Replaces scattered availability variables with a single source of truth.
+ *
+ * Application: Book My Stay App
+ * Version: 3.1
+ *
+ * @author Niranjan
+ * @version 3.1
+ */
 public class BookMyStayApp {
 
     public static void main(String[] args) {
 
         System.out.println("Welcome to Book My Stay App");
-        System.out.println("Application Version: 2.1\n");
+        System.out.println("Application Version: 3.1\n");
 
-        // Create room objects (Polymorphism)
-        Room single = new SingleRoom();
-        Room dbl = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        // Initialize centralized inventory
+        RoomInventory inventory = new RoomInventory();
 
-        // Static availability variables
-        int singleAvailability = 10;
-        int doubleAvailability = 6;
-        int suiteAvailability = 3;
+        // Display current inventory
+        inventory.displayInventory();
 
-        System.out.println("---- Room Details ----\n");
+        // Retrieve availability
+        int singleAvailability = inventory.getAvailability("Single Room");
+        System.out.println("Single Room Availability: " + singleAvailability);
 
-        single.displayRoomDetails();
-        System.out.println("Available : " + singleAvailability + "\n");
+        // Update availability example
+        System.out.println("\nUpdating Single Room availability...");
+        inventory.updateAvailability("Single Room", singleAvailability - 1);
 
-        dbl.displayRoomDetails();
-        System.out.println("Available : " + doubleAvailability + "\n");
-
-        suite.displayRoomDetails();
-        System.out.println("Available : " + suiteAvailability + "\n");
+        // Display updated inventory
+        System.out.println();
+        inventory.displayInventory();
 
         System.out.println("Application terminated.");
     }

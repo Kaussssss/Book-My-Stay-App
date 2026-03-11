@@ -1,127 +1,168 @@
 # Book My Stay App
 
-## Use Case 2 – Basic Room Types & Static Availability
+## Use Case 3 – Centralized Room Inventory Management
 
 ### Overview
 
-This use case demonstrates the **object-oriented design of room types** within the *Book My Stay* Hotel Booking Management System. The goal is to introduce **domain modeling using core OOP principles** such as **abstraction, inheritance, polymorphism, and encapsulation** before introducing complex data structures.
+This use case introduces **centralized room inventory management** within the *Book My Stay* Hotel Booking Management System. Instead of storing room availability using scattered variables (as done in the previous use case), the system now maintains availability in a **single centralized data structure using a HashMap**.
 
-The application initializes different room types and displays their details along with their **static availability** using simple variables. This approach intentionally highlights the limitations of hardcoded availability, which will be improved in later use cases using proper inventory management techniques.
+This approach ensures that the application maintains a **single source of truth** for room availability, preventing inconsistencies and improving scalability as the system grows. The inventory component encapsulates all logic related to availability management, allowing other parts of the system to interact with it through controlled methods.
 
 ---
 
 ### Application Information
 
 * **Application Name:** Book My Stay App
-* **Use Case:** UC2 – Basic Room Types & Static Availability
-* **Version:** 2.1 (Refactored Version)
+* **Use Case:** UC3 – Centralized Room Inventory Management
+* **Version:** 3.1 (Refactored Version)
 * **Language:** Java
-* **Focus:** Core Java & Object-Oriented Programming
+* **Focus:** Core Java & Data Structures
 
 ---
 
 ### Goal
 
-To model hotel room types using object-oriented concepts and display their details and availability when the application is executed.
+To replace scattered availability variables with a **centralized inventory system** using a `HashMap`, demonstrating how data structures help maintain consistent system state.
 
 ---
 
 ### Actor
 
-**User** – Runs the application from the command line or an IDE.
+**RoomInventory** – Responsible for managing and exposing room availability across the system.
 
 ---
 
 ### Application Flow
 
-1. The user runs the application.
-2. The Java Virtual Machine (JVM) invokes the `main()` method.
-3. Room objects representing different room types are created.
-4. Availability for each room type is stored using simple variables.
-5. The application prints room details and availability to the console.
-6. The application terminates after displaying the information.
+1. The application starts execution.
+2. The inventory component is initialized.
+3. Room types are registered along with their available counts.
+4. Availability information is stored in a centralized `HashMap`.
+5. The application retrieves room availability when required.
+6. Updates to room counts are performed using controlled methods.
+7. The current inventory state is displayed to the console.
 
 ---
 
 ### Key Concepts Demonstrated
 
-#### Abstract Class
+#### Problem of Scattered State
 
-The `Room` class is defined as an **abstract class** representing a generalized room.
-It contains common attributes such as room type, number of beds, and price.
+In **Use Case 2**, room availability was stored using individual variables. This approach leads to:
 
-#### Inheritance
+* Code duplication
+* Inconsistent updates
+* Poor scalability
 
-Concrete classes extend the `Room` class:
-
-* `SingleRoom`
-* `DoubleRoom`
-* `SuiteRoom`
-
-Each subclass inherits shared properties and represents a specific type of hotel room.
-
-#### Polymorphism
-
-Room objects are referenced using the **base type `Room`**, allowing different room implementations to be handled uniformly.
-
-Example:
-
-```java
-Room single = new SingleRoom();
-Room dbl = new DoubleRoom();
-Room suite = new SuiteRoom();
-```
-
-#### Encapsulation
-
-Room attributes are stored inside the `Room` class and accessed through defined methods such as `displayRoomDetails()`.
-
-#### Static Availability Representation
-
-Room availability is stored using simple variables:
-
-```java
-int singleAvailability = 10;
-int doubleAvailability = 6;
-int suiteAvailability = 3;
-```
-
-This demonstrates the limitations of static state management before introducing data structures.
-
-#### Separation of Domain and State
-
-* **Room objects** describe what a room is.
-* **Availability variables** represent the current system state.
-
-This separation prepares the system for future inventory management improvements.
+Centralizing the state eliminates these issues.
 
 ---
 
-### Room Types Implemented
+#### HashMap
 
-| Room Type   | Beds | Price |
-| ----------- | ---- | ----- |
-| Single Room | 1    | $80   |
-| Double Room | 2    | $120  |
-| Suite Room  | 3    | $250  |
+A **HashMap** is used to map room types to their availability.
+
+Example structure:
+
+```java
+HashMap<String, Integer> inventory;
+```
+
+Example data stored in the map:
+
+| Room Type   | Available Rooms |
+| ----------- | --------------- |
+| Single Room | 10              |
+| Double Room | 6               |
+| Suite Room  | 3               |
+
+---
+
+#### O(1) Lookup
+
+HashMap provides **average constant-time complexity** for retrieving values.
+
+Operations such as:
+
+```java
+inventory.get("Single Room");
+inventory.put("Single Room", 9);
+```
+
+are typically performed in **O(1) time**, making the structure efficient for systems with frequent inventory checks.
+
+---
+
+#### Single Source of Truth
+
+All room availability information is stored inside a **single data structure**, ensuring:
+
+* Consistent updates
+* Reliable availability checks
+* Simplified system maintenance
+
+---
+
+#### Encapsulation of Inventory Logic
+
+The `RoomInventory` class encapsulates all inventory-related logic, including:
+
+* Initializing room availability
+* Retrieving availability
+* Updating room counts
+* Displaying inventory state
+
+Other parts of the system do not directly manipulate the map.
+
+---
+
+#### Separation of Concerns
+
+The system separates two responsibilities:
+
+| Component     | Responsibility                                  |
+| ------------- | ----------------------------------------------- |
+| Room classes  | Define room characteristics (price, beds, type) |
+| RoomInventory | Manage how many rooms are available             |
+
+This improves maintainability and system design.
+
+---
+
+#### Scalability
+
+Adding a new room type becomes simple:
+
+```java
+inventory.put("Deluxe Room", 5);
+```
+
+No other application logic needs modification.
+
+---
+
+### Key Requirements
+
+* Initialize room availability using a constructor.
+* Store availability using a `HashMap<String, Integer>`.
+* Provide methods to retrieve availability.
+* Allow controlled updates to inventory.
+* Maintain a consistent inventory state.
 
 ---
 
 ### Project Structure
 
-This use case is implemented in a **single Java file**:
+The use case is implemented in a **single Java file**:
 
 ```
-UseCase2RoomInitialization.java
+UseCase3InventorySetup.java
 ```
 
 The file contains:
 
-* Abstract class `Room`
-* Class `SingleRoom`
-* Class `DoubleRoom`
-* Class `SuiteRoom`
-* Main class `UseCase2RoomInitialization`
+* `RoomInventory` class (inventory management)
+* `UseCase3InventorySetup` class (application entry point)
 
 ---
 
@@ -130,13 +171,13 @@ The file contains:
 #### Compile the Program
 
 ```bash
-javac UseCase2RoomInitialization.java
+javac UseCase3InventorySetup.java
 ```
 
 #### Run the Program
 
 ```bash
-java UseCase2RoomInitialization
+java UseCase3InventorySetup
 ```
 
 ---
@@ -145,24 +186,21 @@ java UseCase2RoomInitialization
 
 ```
 Welcome to Book My Stay App
-Application Version: 2.1
+Application Version: 3.1
 
----- Room Details ----
+---- Current Room Inventory ----
+Single Room : 10 rooms available
+Double Room : 6 rooms available
+Suite Room : 3 rooms available
 
-Room Type : Single Room
-Beds      : 1
-Price     : $80.0
-Available : 10
+Single Room Availability: 10
 
-Room Type : Double Room
-Beds      : 2
-Price     : $120.0
-Available : 6
+Updating Single Room availability...
 
-Room Type : Suite Room
-Beds      : 3
-Price     : $250.0
-Available : 3
+---- Current Room Inventory ----
+Single Room : 9 rooms available
+Double Room : 6 rooms available
+Suite Room : 3 rooms available
 
 Application terminated.
 ```
@@ -171,32 +209,30 @@ Application terminated.
 
 ### Benefits of This Use Case
 
-* Introduces **object-oriented domain modeling**
-* Demonstrates **abstraction and inheritance**
-* Provides a **foundation for scalable system design**
-* Helps learners understand the difference between **domain objects and system state**
+* Establishes a **single source of truth for room availability**
+* Enables **constant-time inventory access**
+* Improves **system scalability**
+* Demonstrates practical use of **HashMap in real-world applications**
 
 ---
 
 ### Limitations
 
-* Room availability is stored using **simple variables**
-* The system does **not support dynamic inventory management**
-* No booking functionality is implemented yet
+* Inventory is still **initialized with fixed values**
+* No booking workflow exists yet
+* No concurrency control is implemented
 
-These limitations will be addressed in future use cases by introducing **data structures and booking logic**.
+Future use cases will introduce **booking logic, request handling, and prevention of double booking**.
 
 ---
 
-### Future Enhancements
+### Improvements Over Use Case 2
 
-Later use cases will introduce:
-
-* Room inventory management using **arrays or collections**
-* Booking requests
-* Prevention of **double booking**
-* Queue-based request handling
-* Improved data structure usage
+| Use Case 2                       | Use Case 3                         |
+| -------------------------------- | ---------------------------------- |
+| Availability stored in variables | Availability stored in HashMap     |
+| Hard to scale                    | Easy to extend                     |
+| Risk of inconsistent updates     | Centralized and controlled updates |
 
 ---
 
@@ -206,4 +242,4 @@ Later use cases will introduce:
 
 ### Version
 
-**2.1**
+**3.1**
