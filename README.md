@@ -1,5 +1,5 @@
 # Book My Stay App
-## Use Case 7: Add-On Service Selection
+## Use Case 8: Booking History & Reporting
 
 ### Author:
 Kaustubh Chauhan  
@@ -8,64 +8,56 @@ RA2411030010032
 ---
 
 ## 📌 Project Description
-This use case extends the booking system to support optional services
-like WiFi, breakfast, and spa without modifying core booking logic.
+This use case introduces booking history tracking and reporting,
+allowing administrative visibility without persistent storage.
 
 ---
 
 ## 🎯 Goal
-Allow guests to attach multiple add-on services to a reservation.
+Maintain chronological booking history and generate simple summary reports.
 
 ---
 
 ## 👤 Actors
-- Guest → Selects services
-- Add-On Service → Represents optional feature
-- Add-On Service Manager → Manages mapping
+- Admin → Views booking history and reports
+- Booking History → Stores confirmed reservations
+- Booking Report Service → Generates reports from history
 
 ---
 
-## 🔄 Flow of Program
+## 🔄 Flow
 
-1. Reservation already exists (from previous use case).
-2. Guest selects add-on services.
-3. Services are stored in a list.
-4. List is mapped to reservation ID.
-5. Total cost is calculated.
-6. Booking and inventory remain unchanged.
+1. Reservation is confirmed.
+2. Confirmed reservation is added to history.
+3. History maintains insertion order.
+4. Admin retrieves all reservations or summary reports.
+5. Data in history remains unmodified during reporting.
 
 ---
 
 ## 🧠 Concepts Used
 
-### 1. One-to-Many Relationship
-One reservation → multiple services
-
-### 2. Map + List
-Map<String, List<Service>> used for mapping
-
-### 3. Composition
-Services are attached, not inherited
-
-### 4. Separation of Concerns
-Add-ons do not affect booking logic
-
-### 5. Cost Aggregation
-Costs calculated independently
+- List<Reservation> for ordered storage
+- Separation of storage and reporting
+- Audit trail simulation
+- Reporting readiness without persistence
 
 ---
 
 ## ✅ Key Features
-- Multiple services per reservation
-- Flexible system design
-- Easy to add new services
-- No impact on booking system
+
+- Chronological storage of confirmed reservations
+- Safe retrieval for reporting
+- Summary reports per room type
+- Total reservation count
+- Non-destructive reporting
 
 ---
 
-## ⚠️ Drawback (Previous Use Case)
-- Booking was static
-- No support for additional services
+## ⚠️ Previous Drawback
+
+- Add-On services (UC7) did not store historical booking data
+- No audit trail for confirmed reservations
 
 ---
 
