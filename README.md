@@ -1,5 +1,5 @@
 # Book My Stay App
-## Use Case 4: Room Search & Availability Check
+## Use Case 5: Booking Request (First-Come-First-Served)
 
 ### Author:
 Kaustubh Chauhan  
@@ -8,67 +8,64 @@ RA2411030010032
 ---
 
 ## 📌 Project Description
-This project demonstrates a Hotel Booking Management System using Core Java.
-Use Case 4 focuses on searching available rooms without modifying system state.
+This use case introduces a booking request mechanism using a Queue
+to handle multiple booking requests fairly.
 
 ---
 
 ## 🎯 Goal
-Allow users (guests) to view available rooms and their details safely using read-only operations.
+Ensure fair handling of booking requests by preserving arrival order
+using FIFO (First-Come-First-Served).
 
 ---
 
 ## 👤 Actors
-- Guest → Initiates search
-- Search Service → Handles read-only logic
+- Reservation → Represents a booking request
+- Booking Request Queue → Stores and manages requests
 
 ---
 
 ## 🔄 Flow of Program
 
-1. System initializes room inventory.
-2. Room details (price, amenities) are stored separately.
-3. Guest initiates room search.
-4. Search service:
-    - Retrieves room availability from inventory
-    - Filters out unavailable rooms
-    - Fetches room details
-5. Displays only available rooms.
-6. No changes are made to inventory.
+1. Guest submits booking request.
+2. Request is added to queue.
+3. Queue maintains insertion order.
+4. Requests wait for processing.
+5. Processing happens in FIFO order.
+6. No room allocation or inventory update occurs.
 
 ---
 
 ## 🧠 Concepts Used
 
-### 1. Read-Only Access
-Search operation does not modify inventory.
+### 1. Queue Data Structure
+Used to store booking requests.
 
-### 2. Separation of Concerns
-- Inventory → Stores availability
-- Room → Stores details
-- SearchService → Handles logic
+### 2. FIFO Principle
+Ensures first request is processed first.
 
-### 3. Defensive Programming
-Checks for null and valid data before display.
+### 3. Fairness
+All users are treated equally based on arrival time.
 
-### 4. Validation Logic
-Only rooms with availability > 0 are shown.
+### 4. Request Ordering
+Queue maintains order automatically.
 
-### 5. Domain Model
-Room class encapsulates room-related information.
+### 5. Decoupling
+Request intake is separated from allocation logic.
 
 ---
 
 ## ✅ Key Features
-- Displays only available rooms
-- Clean separation between logic and data
-- Prevents accidental inventory updates
+- Fair booking request handling
+- Maintains strict order of requests
+- No risk of request skipping
+- Clean separation from inventory logic
 
 ---
 
 ## ⚠️ Drawback (Previous Use Case)
-- No separation between read/write operations
-- Risk of modifying inventory during search
+- No booking request handling
+- No fairness in simultaneous bookings
 
 ---
 
@@ -87,19 +84,22 @@ java BookMyStayApp
 
 ## 📌 Sample Output
 
-Available Rooms:
+Request added for Alice  
+Request added for Bob  
+Request added for Charlie
 
-Room Type: Single  
-Price: $100  
-Amenities: [WiFi, TV, AC]  
-Available Count: 5
+Current Booking Queue:  
+Guest: Alice | Room Type: Single  
+Guest: Bob | Room Type: Suite  
+Guest: Charlie | Room Type: Double
 
-Room Type: Suite  
-Price: $300  
-Amenities: [WiFi, TV, AC, Pool, Jacuzzi]  
-Available Count: 2
+Processing Requests (FIFO Order):  
+Processing -> Guest: Alice | Room Type: Single  
+Processing -> Guest: Bob | Room Type: Suite  
+Processing -> Guest: Charlie | Room Type: Double
 
 ---
 
 ## 🚀 Summary
-This use case ensures safe data access using read-only operations while maintaining system stability an
+This use case ensures fair handling of booking requests using FIFO queues,
+preparing the system for controlled allocation in future use cases.
