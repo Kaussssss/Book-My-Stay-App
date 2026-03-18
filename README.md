@@ -1,5 +1,5 @@
 # Book My Stay App
-## Use Case 10: Booking Cancellation & Inventory Rollback
+## Use Case 11: Concurrent Booking Simulation (Thread Safety)
 
 ### Author:
 Kaustubh Chauhan  
@@ -8,99 +8,83 @@ RA2411030010032
 ---
 
 ## 📌 Description
-This use case allows guests to safely cancel confirmed bookings.
-It restores inventory and booking state using rollback logic with a stack.
+This use case demonstrates safe multi-user booking using Java threads.
+It simulates concurrent guests booking rooms simultaneously and ensures
+thread-safe access to inventory and confirmed bookings.
 
 ---
 
 ## 🎯 Goal
-Ensure predictable recovery and inventory consistency after cancellations.
+Prevent race conditions and double-booking under concurrent execution.
 
 ---
 
 ## 👤 Actors
-- Guest → Requests cancellation
-- Cancellation Service → Validates and rolls back state
+- Multiple Guests → Submit bookings concurrently
+- Concurrent Booking Processor → Processes bookings in threads
 
 ---
 
 ## 🔄 Flow
 
-1. Guest requests cancellation.
-2. System checks reservation existence.
-3. Inventory count for room type is incremented.
-4. Released room ID is pushed to rollback stack.
-5. Booking removed from confirmed bookings.
-6. System state remains consistent.
+1. Multiple guests submit booking requests simultaneously.
+2. Threads access shared inventory using synchronized blocks.
+3. Booking service allocates rooms safely inside critical sections.
+4. Final confirmed bookings and inventory remain consistent.
 
 ---
 
 ## 🧠 Concepts Used
 
-- Stack<String> for LIFO rollback of room IDs
-- Controlled mutation of system state
-- Inventory restoration after cancellation
-- Validation of reservation existence
+- Race conditions and thread safety
+- Shared mutable state
+- Critical sections
+- Synchronized access to inventory and booking map
 
 ---
 
 ## ✅ Features
 
-- Safe booking cancellation
-- Inventory rollback
-- Prevention of cancelling non-existent or already cancelled bookings
-- Tracking recently released rooms
-- Consistent system state
+- Simulates multiple simultaneous booking requests
+- Thread-safe inventory updates
+- Prevents double-booking
+- Consistent system state under concurrency
 
 ---
 
 ## ⚠️ Previous Drawback
 
-- UC9 validated input but did not allow reversing valid bookings.
-- Without rollback, cancellations could corrupt inventory.
+- Earlier use cases assumed single-threaded execution
+- Unsafe under multi-user real-world conditions
 
 ---
 
 ## ▶️ How to Run
 
 ### Compile:
-
-javac UseCase10BookingCancellation.java
+javac UseCase11ConcurrentBookingSimulation.java
 
 
 ### Run:
 
-java UseCase10BookingCancellation
+java UseCase11ConcurrentBookingSimulation
 
 
 ---
 
-## 📌 Sample Output
+## 📌 Sample Output (Order may vary due to threads)
 
-Booking successful: RES101  
-Booking successful: RES102  
-Booking successful: RES103
+Booking Successful for Alice | Room ID: SI123  
+Booking Successful for Bob | Room ID: SI456  
+Booking Failed for Charlie: No rooms available for Single  
+Booking Successful for David | Room ID: DO789  
+Booking Failed for Eve: No rooms available for Double
 
 Confirmed Reservations:  
 Reservation ID: RES101 | Guest: Alice | Room Type: Single | Room ID: SI123  
-Reservation ID: RES102 | Guest: Bob | Room Type: Double | Room ID: DO456  
-Reservation ID: RES103 | Guest: Charlie | Room Type: Single | Room ID: SI789
+Reservation ID: RES102 | Guest: Bob | Room Type: Single | Room ID: SI456  
+Reservation ID: RES104 | Guest: David | Room Type: Double | Room ID: DO789
 
 Inventory Status:  
 Single -> 0  
 Double -> 0
-
-Cancellation successful: RES102  
-Cancellation Failed: Reservation ID not found or already cancelled.  
-Cancellation Failed: Reservation ID not found or already cancelled.
-
-Confirmed Reservations:  
-Reservation ID: RES101 | Guest: Alice | Room Type: Single | Room ID: SI123  
-Reservation ID: RES103 | Guest: Charlie | Room Type: Single | Room ID: SI789
-
-Recently Released Room IDs (Rollback Stack):  
-DO456
-
-Inventory Status:  
-Single -> 0  
-Double -> 1
