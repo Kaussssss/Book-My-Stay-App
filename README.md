@@ -1,5 +1,5 @@
 # Book My Stay App
-## Use Case 6: Reservation Confirmation & Room Allocation
+## Use Case 7: Add-On Service Selection
 
 ### Author:
 Kaustubh Chauhan  
@@ -8,94 +8,67 @@ RA2411030010032
 ---
 
 ## 📌 Project Description
-This use case processes booking requests and allocates rooms safely
-while preventing double-booking and maintaining inventory consistency.
+This use case extends the booking system to support optional services
+like WiFi, breakfast, and spa without modifying core booking logic.
 
 ---
 
 ## 🎯 Goal
-Confirm bookings by assigning unique room IDs and updating inventory.
+Allow guests to attach multiple add-on services to a reservation.
 
 ---
 
 ## 👤 Actors
-- Booking Service → Handles allocation
-- Inventory Service → Maintains availability
+- Guest → Selects services
+- Add-On Service → Represents optional feature
+- Add-On Service Manager → Manages mapping
 
 ---
 
 ## 🔄 Flow of Program
 
-1. Booking request is taken from queue (FIFO).
-2. System checks room availability.
-3. Unique room ID is generated.
-4. Room ID is checked for duplication using Set.
-5. Room is allocated.
-6. Inventory is updated immediately.
-7. Booking is confirmed.
+1. Reservation already exists (from previous use case).
+2. Guest selects add-on services.
+3. Services are stored in a list.
+4. List is mapped to reservation ID.
+5. Total cost is calculated.
+6. Booking and inventory remain unchanged.
 
 ---
 
 ## 🧠 Concepts Used
 
-### 1. Set Data Structure
-Ensures unique room IDs (no duplicates).
+### 1. One-to-Many Relationship
+One reservation → multiple services
 
-### 2. HashMap
-Maps room type → allocated room IDs.
+### 2. Map + List
+Map<String, List<Service>> used for mapping
 
-### 3. FIFO Queue
-Processes requests in order.
+### 3. Composition
+Services are attached, not inherited
 
-### 4. Atomic Operations
-Allocation + inventory update done together.
+### 4. Separation of Concerns
+Add-ons do not affect booking logic
 
-### 5. Inventory Synchronization
-Real-time update after booking.
+### 5. Cost Aggregation
+Costs calculated independently
 
 ---
 
 ## ✅ Key Features
-- Prevents double-booking
-- Guarantees unique room IDs
-- Maintains consistent inventory
-- Fair booking processing
+- Multiple services per reservation
+- Flexible system design
+- Easy to add new services
+- No impact on booking system
 
 ---
 
 ## ⚠️ Drawback (Previous Use Case)
-- Requests were queued but not processed
-- No room assignment or validation
+- Booking was static
+- No support for additional services
 
 ---
 
 ## ▶️ How to Run
 
 ### Compile:
-javac BookMyStayApp.java
-
-
-### Run:
-
-java BookMyStayApp
-
-
----
-
-## 📌 Sample Output
-
-Processing booking for Alice  
-Booking Confirmed!  
-Room ID: SI123
-
-Processing booking for Bob  
-Booking Confirmed!
-
-Processing booking for Charlie  
-Booking Failed: No rooms available
-
----
-
-## 🚀 Summary
-This use case ensures safe and consistent room allocation
-using Set for uniqueness and immediate inventory updates.
