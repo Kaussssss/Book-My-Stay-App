@@ -1,5 +1,5 @@
 # Book My Stay App
-## Use Case 11: Concurrent Booking Simulation (Thread Safety)
+## Use Case 12: Data Persistence & System Recovery
 
 ### Author:
 Kaustubh Chauhan  
@@ -8,83 +8,78 @@ RA2411030010032
 ---
 
 ## 📌 Description
-This use case demonstrates safe multi-user booking using Java threads.
-It simulates concurrent guests booking rooms simultaneously and ensures
-thread-safe access to inventory and confirmed bookings.
+This use case ensures that the booking system persists its state.
+Confirmed bookings and inventory are saved to a file and restored on startup.
 
 ---
 
 ## 🎯 Goal
-Prevent race conditions and double-booking under concurrent execution.
+Enable system recovery after restarts or crashes.
 
 ---
 
 ## 👤 Actors
-- Multiple Guests → Submit bookings concurrently
-- Concurrent Booking Processor → Processes bookings in threads
+- System → Saves and restores state
+- Persistence Service → Handles serialization and deserialization
 
 ---
 
 ## 🔄 Flow
 
-1. Multiple guests submit booking requests simultaneously.
-2. Threads access shared inventory using synchronized blocks.
-3. Booking service allocates rooms safely inside critical sections.
-4. Final confirmed bookings and inventory remain consistent.
+1. System prepares for shutdown.
+2. Inventory and bookings are serialized to a file.
+3. System restarts.
+4. Persisted data is deserialized.
+5. Inventory and booking state are restored into memory.
+6. System resumes operation with recovered state.
 
 ---
 
 ## 🧠 Concepts Used
 
-- Race conditions and thread safety
-- Shared mutable state
-- Critical sections
-- Synchronized access to inventory and booking map
+- Stateful application
+- Persistence
+- Serialization & Deserialization
+- Recovery of inventory snapshot
+- Handling missing/corrupted files
 
 ---
 
 ## ✅ Features
 
-- Simulates multiple simultaneous booking requests
-- Thread-safe inventory updates
-- Prevents double-booking
-- Consistent system state under concurrency
-
----
-
-## ⚠️ Previous Drawback
-
-- Earlier use cases assumed single-threaded execution
-- Unsafe under multi-user real-world conditions
+- Save confirmed bookings and inventory
+- Restore system state after restart
+- Prevents data loss
+- Handles missing or corrupted files gracefully
 
 ---
 
 ## ▶️ How to Run
 
 ### Compile:
-javac UseCase11ConcurrentBookingSimulation.java
+
+javac UseCase12DataPersistenceRecovery.java
 
 
 ### Run:
 
-java UseCase11ConcurrentBookingSimulation
+java UseCase12DataPersistenceRecovery
 
 
 ---
 
-## 📌 Sample Output (Order may vary due to threads)
+## 📌 Sample Output
 
+No saved state found. Starting fresh.  
 Booking Successful for Alice | Room ID: SI123  
-Booking Successful for Bob | Room ID: SI456  
-Booking Failed for Charlie: No rooms available for Single  
-Booking Successful for David | Room ID: DO789  
-Booking Failed for Eve: No rooms available for Double
+Booking Successful for Bob | Room ID: DO456
 
 Confirmed Reservations:  
 Reservation ID: RES101 | Guest: Alice | Room Type: Single | Room ID: SI123  
-Reservation ID: RES102 | Guest: Bob | Room Type: Single | Room ID: SI456  
-Reservation ID: RES104 | Guest: David | Room Type: Double | Room ID: DO789
+Reservation ID: RES102 | Guest: Bob | Room Type: Double | Room ID: DO456
 
 Inventory Status:  
-Single -> 0  
+Single -> 1  
 Double -> 0
+
+System state saved successfully.
