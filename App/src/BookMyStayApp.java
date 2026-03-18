@@ -1,99 +1,130 @@
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * RoomInventory
+/*
+ * Book My Stay App
+ * Use Case 4: Room Search & Availability Check
  *
- * Manages centralized room availability using a HashMap.
- * This class acts as the single source of truth for inventory state.
+ * Author: Kaustubh Chauhan
+ * Registration No: RA2411030010032
  *
- * @author Kaustubh Chauhan
- * @version 3.0
+ * Description:
+ * This program demonstrates a read-only room search system
+ * where available rooms are displayed without modifying inventory state.
  */
-class RoomInventory {
 
-    private HashMap<String, Integer> inventory;
+import java.util.*;
 
-    /**
-     * Constructor initializes the room inventory
-     */
-    public RoomInventory() {
+// Room class (Domain Model)
+class Room {
+    private String type;
+    private double price;
+    private List<String> amenities;
 
-        inventory = new HashMap<>();
-
-        // Register room types with their availability
-        inventory.put("Single Room", 10);
-        inventory.put("Double Room", 6);
-        inventory.put("Suite Room", 3);
+    public Room(String type, double price, List<String> amenities) {
+        this.type = type;
+        this.price = price;
+        this.amenities = amenities;
     }
 
-    /**
-     * Retrieves availability for a given room type
-     */
-    public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
+    public String getType() {
+        return type;
     }
 
-    /**
-     * Updates availability for a specific room type
-     */
-    public void updateAvailability(String roomType, int newCount) {
-        inventory.put(roomType, newCount);
+    public double getPrice() {
+        return price;
     }
 
-    /**
-     * Displays the current inventory state
-     */
-    public void displayInventory() {
+    public List<String> getAmenities() {
+        return amenities;
+    }
 
-        System.out.println("---- Current Room Inventory ----");
-
-        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " rooms available");
-        }
-
-        System.out.println();
+    public void displayDetails() {
+        System.out.println("Room Type: " + type);
+        System.out.println("Price: $" + price);
+        System.out.println("Amenities: " + amenities);
+        System.out.println("----------------------------");
     }
 }
 
+// Inventory class (State Holder)
+class Inventory {
+    private Map<String, Integer> roomAvailability;
 
-/**
- * UseCase3InventorySetup
- *
- * Demonstrates centralized inventory management using HashMap.
- * Replaces scattered availability variables with a single source of truth.
- *
- * Application: Book My Stay App
- * Version: 3.1
- *
- * @author Niranjan
- * @version 3.1
- */
+    public Inventory() {
+        roomAvailability = new HashMap<>();
+    }
+
+    public void addRoom(String type, int count) {
+        roomAvailability.put(type, count);
+    }
+
+    // Read-only access
+    public int getAvailability(String type) {
+        return roomAvailability.getOrDefault(type, 0);
+    }
+
+    public Set<String> getAllRoomTypes() {
+        return roomAvailability.keySet();
+    }
+}
+
+// Search Service (Read-only logic)
+class SearchService {
+    private Inventory inventory;
+    private Map<String, Room> roomDetails;
+
+    public SearchService(Inventory inventory, Map<String, Room> roomDetails) {
+        this.inventory = inventory;
+        this.roomDetails = roomDetails;
+    }
+
+    public void searchAvailableRooms() {
+        System.out.println("\nAvailable Rooms:\n");
+
+        for (String type : inventory.getAllRoomTypes()) {
+            int available = inventory.getAvailability(type);
+
+            // Validation: show only available rooms
+            if (available > 0) {
+                Room room = roomDetails.get(type);
+
+                if (room != null) { // Defensive Programming
+                    room.displayDetails();
+                    System.out.println("Available Count: " + available);
+                    System.out.println("============================");
+                }
+            }
+        }
+    }
+}
+
+// Main Application
 public class BookMyStayApp {
-
     public static void main(String[] args) {
 
-        System.out.println("Welcome to Book My Stay App");
-        System.out.println("Application Version: 3.1\n");
+        // Initialize inventory
+        Inventory inventory = new Inventory();
+        inventory.addRoom("Single", 5);
+        inventory.addRoom("Double", 0); // Unavailable
+        inventory.addRoom("Suite", 2);
 
-        // Initialize centralized inventory
-        RoomInventory inventory = new RoomInventory();
+        // Create room details
+        Map<String, Room> roomDetails = new HashMap<>();
 
-        // Display current inventory
-        inventory.displayInventory();
+        roomDetails.put("Single", new Room(
+                "Single", 100,
+                Arrays.asList("WiFi", "TV", "AC")));
 
-        // Retrieve availability
-        int singleAvailability = inventory.getAvailability("Single Room");
-        System.out.println("Single Room Availability: " + singleAvailability);
+        roomDetails.put("Double", new Room(
+                "Double", 180,
+                Arrays.asList("WiFi", "TV", "AC", "Mini Bar")));
 
-        // Update availability example
-        System.out.println("\nUpdating Single Room availability...");
-        inventory.updateAvailability("Single Room", singleAvailability - 1);
+        roomDetails.put("Suite", new Room(
+                "Suite", 300,
+                Arrays.asList("WiFi", "TV", "AC", "Pool", "Jacuzzi")));
 
-        // Display updated inventory
-        System.out.println();
-        inventory.displayInventory();
+        // Search Service
+        SearchService searchService = new SearchService(inventory, roomDetails);
 
-        System.out.println("Application terminated.");
+        // Guest initiates search
+        searchService.searchAvailableRooms();
     }
 }
