@@ -1,5 +1,5 @@
 # Book My Stay App
-## Use Case 5: Booking Request (First-Come-First-Served)
+## Use Case 6: Reservation Confirmation & Room Allocation
 
 ### Author:
 Kaustubh Chauhan  
@@ -8,64 +8,64 @@ RA2411030010032
 ---
 
 ## 📌 Project Description
-This use case introduces a booking request mechanism using a Queue
-to handle multiple booking requests fairly.
+This use case processes booking requests and allocates rooms safely
+while preventing double-booking and maintaining inventory consistency.
 
 ---
 
 ## 🎯 Goal
-Ensure fair handling of booking requests by preserving arrival order
-using FIFO (First-Come-First-Served).
+Confirm bookings by assigning unique room IDs and updating inventory.
 
 ---
 
 ## 👤 Actors
-- Reservation → Represents a booking request
-- Booking Request Queue → Stores and manages requests
+- Booking Service → Handles allocation
+- Inventory Service → Maintains availability
 
 ---
 
 ## 🔄 Flow of Program
 
-1. Guest submits booking request.
-2. Request is added to queue.
-3. Queue maintains insertion order.
-4. Requests wait for processing.
-5. Processing happens in FIFO order.
-6. No room allocation or inventory update occurs.
+1. Booking request is taken from queue (FIFO).
+2. System checks room availability.
+3. Unique room ID is generated.
+4. Room ID is checked for duplication using Set.
+5. Room is allocated.
+6. Inventory is updated immediately.
+7. Booking is confirmed.
 
 ---
 
 ## 🧠 Concepts Used
 
-### 1. Queue Data Structure
-Used to store booking requests.
+### 1. Set Data Structure
+Ensures unique room IDs (no duplicates).
 
-### 2. FIFO Principle
-Ensures first request is processed first.
+### 2. HashMap
+Maps room type → allocated room IDs.
 
-### 3. Fairness
-All users are treated equally based on arrival time.
+### 3. FIFO Queue
+Processes requests in order.
 
-### 4. Request Ordering
-Queue maintains order automatically.
+### 4. Atomic Operations
+Allocation + inventory update done together.
 
-### 5. Decoupling
-Request intake is separated from allocation logic.
+### 5. Inventory Synchronization
+Real-time update after booking.
 
 ---
 
 ## ✅ Key Features
-- Fair booking request handling
-- Maintains strict order of requests
-- No risk of request skipping
-- Clean separation from inventory logic
+- Prevents double-booking
+- Guarantees unique room IDs
+- Maintains consistent inventory
+- Fair booking processing
 
 ---
 
 ## ⚠️ Drawback (Previous Use Case)
-- No booking request handling
-- No fairness in simultaneous bookings
+- Requests were queued but not processed
+- No room assignment or validation
 
 ---
 
@@ -84,22 +84,18 @@ java BookMyStayApp
 
 ## 📌 Sample Output
 
-Request added for Alice  
-Request added for Bob  
-Request added for Charlie
+Processing booking for Alice  
+Booking Confirmed!  
+Room ID: SI123
 
-Current Booking Queue:  
-Guest: Alice | Room Type: Single  
-Guest: Bob | Room Type: Suite  
-Guest: Charlie | Room Type: Double
+Processing booking for Bob  
+Booking Confirmed!
 
-Processing Requests (FIFO Order):  
-Processing -> Guest: Alice | Room Type: Single  
-Processing -> Guest: Bob | Room Type: Suite  
-Processing -> Guest: Charlie | Room Type: Double
+Processing booking for Charlie  
+Booking Failed: No rooms available
 
 ---
 
 ## 🚀 Summary
-This use case ensures fair handling of booking requests using FIFO queues,
-preparing the system for controlled allocation in future use cases.
+This use case ensures safe and consistent room allocation
+using Set for uniqueness and immediate inventory updates.
