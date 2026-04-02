@@ -1,9 +1,7 @@
 # Book My Stay App
 ## Use Case 7: Add-On Service Selection
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
+
 
 ---
 
