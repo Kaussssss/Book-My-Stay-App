@@ -1,9 +1,7 @@
 # Book My Stay App
 ## Use Case 12: Data Persistence & System Recovery
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
+
 
 ---
 
