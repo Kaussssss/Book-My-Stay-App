@@ -1,11 +1,7 @@
 # Book My Stay App
 ## Use Case 8: Booking History & Reporting
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
 
----
 
 ## 📌 Project Description
 This use case introduces booking history tracking and reporting,
