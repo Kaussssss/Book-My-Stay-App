@@ -1,9 +1,6 @@
 # Book My Stay App
 ## Use Case 11: Concurrent Booking Simulation (Thread Safety)
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
 
 ---
 
