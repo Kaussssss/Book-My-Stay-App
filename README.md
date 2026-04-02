@@ -236,9 +236,7 @@ Future use cases will introduce **booking logic, request handling, and preventio
 
 ---
 
-### Author
 
-**Kaustubh Chauhan**
 
 ### Version
 
