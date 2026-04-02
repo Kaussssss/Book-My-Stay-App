@@ -1,6 +1,5 @@
 02 UC 1 - Application Entry & Welcome Message
 
-Kaustubh Chauhan
 
 •
 March 11
