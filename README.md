@@ -200,9 +200,7 @@ Later use cases will introduce:
 
 ---
 
-### Author
 
-**Kaustubh Chauhan**
 
 ### Version
 
