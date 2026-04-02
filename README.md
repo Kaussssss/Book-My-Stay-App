@@ -1,9 +1,6 @@
 # Book My Stay App
 ## Use Case 4: Room Search & Availability Check
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
 
 ---
 
