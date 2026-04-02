@@ -1,9 +1,6 @@
 # Book My Stay App
 ## Use Case 9: Error Handling & Validation
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
 
 ---
 
