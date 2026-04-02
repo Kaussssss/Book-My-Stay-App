@@ -1,11 +1,7 @@
 # Book My Stay App
 ## Use Case 6: Reservation Confirmation & Room Allocation
 
-### Author:
-Kaustubh Chauhan  
-RA2411030010032
 
----
 
 ## 📌 Project Description
 This use case processes booking requests and allocates rooms safely
